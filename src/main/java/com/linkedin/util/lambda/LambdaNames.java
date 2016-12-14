@@ -15,8 +15,13 @@ public class LambdaNames {
 
   public static Optional<String> getLambdaName(Object lambda) {
     String lambdaClassName = lambda.getClass().getName();
-    String name = lambdaClassName.substring(0, lambdaClassName.lastIndexOf('/'));
-    return Optional.ofNullable(_names.get(name));
+    int slashIndex = lambdaClassName.lastIndexOf('/');
+    if (slashIndex > 0) {
+      String name = lambdaClassName.substring(0, slashIndex);
+      return Optional.ofNullable(_names.get(name));
+    } else {
+      return Optional.empty();
+    }
   }
 
   static void add(String lambdaClassName, String name) {

@@ -21,6 +21,10 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
+/**
+ * Given method name and line number this class visitor tries to retrieve name of
+ * the owner of the method reference.
+ */
 class MethodRefOwnerFinder extends ClassVisitor {
 
   private final String _name;
@@ -124,8 +128,9 @@ class MethodRefOwnerFinder extends ClassVisitor {
   private static Optional<String> toVariableName(AbstractInsnNode instr, MethodNode mnode) {
     if (instr instanceof VarInsnNode) {
       VarInsnNode varInstr = (VarInsnNode)instr;
-       List<LocalVariableNode> vars = mnode.localVariables;
-       return Optional.of(vars.get(varInstr.var).name);
+      @SuppressWarnings("unchecked")
+      List<LocalVariableNode> vars = mnode.localVariables;
+      return Optional.of(vars.get(varInstr.var).name);
     } else if (instr instanceof FieldInsnNode) {
       FieldInsnNode fieldInstr = (FieldInsnNode)instr;
       return Optional.of(fieldInstr.name);

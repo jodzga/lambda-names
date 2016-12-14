@@ -13,6 +13,16 @@ import org.testng.annotations.Test;
 
 public class TestMethodRefLambdaNames {
 
+  /**
+   * TODO:
+   * function on an interface
+   * function on an abstract class
+   * static function of an interface
+   * default function of an interface
+   *
+   */
+
+
   static {
     LambdaNames.initialize();
   }
@@ -77,7 +87,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testStaticFunction() {
     Optional<String> lambdaName = getLambdaNameForFunction(TestMethodRefLambdaNames::staticFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("TestMethodRefLambdaNames::staticFunction", "testStaticFunction", lambdaName.get());
   }
@@ -85,7 +94,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testStaticCallable() {
     Optional<String> lambdaName = getLambdaNameForCallable(TestMethodRefLambdaNames::staticCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("TestMethodRefLambdaNames::staticCallable", "testStaticCallable", lambdaName.get());
   }
@@ -93,7 +101,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testStaticConsumer() {
     Optional<String> lambdaName = getLambdaNameForConsumer(TestMethodRefLambdaNames::staticConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("TestMethodRefLambdaNames::staticConsumer", "testStaticConsumer", lambdaName.get());
   }
@@ -101,7 +108,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualFunctionOnThis() {
     Optional<String> lambdaName = getLambdaNameForFunction(this::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("this::virtualFunction", "testVirtualFunctionOnThis", lambdaName.get());
   }
@@ -109,7 +115,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualCallableOnThis() {
     Optional<String> lambdaName = getLambdaNameForCallable(this::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("this::virtualCallable", "testVirtualCallableOnThis", lambdaName.get());
   }
@@ -117,7 +122,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnThis() {
     Optional<String> lambdaName = getLambdaNameForConsumer(this::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("this::virtualConsumer", "testVirtualConsumerOnThis", lambdaName.get());
   }
@@ -125,7 +129,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualFunctionOnStaticField() {
     Optional<String> lambdaName = getLambdaNameForFunction(staticField::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("staticField::virtualFunction", "testVirtualFunctionOnStaticField", lambdaName.get());
   }
@@ -133,7 +136,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualCallableOnStaticField() {
     Optional<String> lambdaName = getLambdaNameForCallable(staticField::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("staticField::virtualCallable", "testVirtualCallableOnStaticField", lambdaName.get());
   }
@@ -141,7 +143,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnStaticField() {
     Optional<String> lambdaName = getLambdaNameForConsumer(staticField::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("staticField::virtualConsumer", "testVirtualConsumerOnStaticField", lambdaName.get());
   }
@@ -149,7 +150,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnStaticFieldChained() {
     Optional<String> lambdaName = getLambdaNameForConsumer(System.out::println);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("out::println", "testVirtualConsumerOnStaticFieldChained", lambdaName.get());
   }
@@ -157,15 +157,14 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualFunctionOnField() {
     Optional<String> lambdaName = getLambdaNameForFunction(field::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
+    System.out.println(lambdaName.get());
     assertNameMatch("field::virtualFunction", "testVirtualFunctionOnField", lambdaName.get());
   }
 
   @Test
   public void testVirtualCallableOnField() {
     Optional<String> lambdaName = getLambdaNameForCallable(field::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("field::virtualCallable", "testVirtualCallableOnField", lambdaName.get());
   }
@@ -173,7 +172,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnField() {
     Optional<String> lambdaName = getLambdaNameForConsumer(field::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("field::virtualConsumer", "testVirtualConsumerOnField", lambdaName.get());
   }
@@ -182,7 +180,6 @@ public class TestMethodRefLambdaNames {
   public void testVirtualFunctionOnVar() {
     TestMethodRefLambdaNames localVar = noParamMethod();
     Optional<String> lambdaName = getLambdaNameForFunction(localVar::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("localVar::virtualFunction", "testVirtualFunctionOnVar", lambdaName.get());
   }
@@ -191,7 +188,6 @@ public class TestMethodRefLambdaNames {
   public void testVirtualCallableOnVar() {
     TestMethodRefLambdaNames localVar = noParamMethod();
     Optional<String> lambdaName = getLambdaNameForCallable(localVar::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("localVar::virtualCallable", "testVirtualCallableOnVar", lambdaName.get());
   }
@@ -200,7 +196,6 @@ public class TestMethodRefLambdaNames {
   public void testVirtualConsumerOnVar() {
     TestMethodRefLambdaNames localVar = noParamMethod();
     Optional<String> lambdaName = getLambdaNameForConsumer(localVar::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("localVar::virtualConsumer", "testVirtualConsumerOnVar", lambdaName.get());
   }
@@ -208,7 +203,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualFunctionOnNoParamMethod() {
     Optional<String> lambdaName = getLambdaNameForFunction(noParamMethod()::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("noParamMethod()::virtualFunction", "testVirtualFunctionOnNoParamMethod", lambdaName.get());
   }
@@ -216,7 +210,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualCallableOnNoParamMethod() {
     Optional<String> lambdaName = getLambdaNameForCallable(noParamMethod()::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("noParamMethod()::virtualCallable", "testVirtualCallableOnNoParamMethod", lambdaName.get());
   }
@@ -224,7 +217,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnNoParamMethod() {
     Optional<String> lambdaName = getLambdaNameForConsumer(noParamMethod()::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("noParamMethod()::virtualConsumer", "testVirtualConsumerOnNoParamMethod", lambdaName.get());
   }
@@ -232,7 +224,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualFunctionOnNoParamStaticMethod() {
     Optional<String> lambdaName = getLambdaNameForFunction(noParamStaticMethod()::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("noParamStaticMethod()::virtualFunction", "testVirtualFunctionOnNoParamStaticMethod", lambdaName.get());
   }
@@ -240,7 +231,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualCallableOnNoParamStaticMethod() {
     Optional<String> lambdaName = getLambdaNameForCallable(noParamStaticMethod()::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("noParamStaticMethod()::virtualCallable", "testVirtualCallableOnNoParamStaticMethod", lambdaName.get());
   }
@@ -248,7 +238,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnNoParamStaticMethod() {
     Optional<String> lambdaName = getLambdaNameForConsumer(noParamStaticMethod()::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("noParamStaticMethod()::virtualConsumer", "testVirtualConsumerOnNoParamStaticMethod", lambdaName.get());
   }
@@ -258,7 +247,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualFunctionOnParamStaticMethod() {
     Optional<String> lambdaName = getLambdaNameForFunction(paramStaticMethod(0, "")::virtualFunction);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("paramStaticMethod(_,_)::virtualFunction", "testVirtualFunctionOnParamStaticMethod", lambdaName.get());
   }
@@ -266,7 +254,6 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualCallableOnParamStaticMethod() {
     Optional<String> lambdaName = getLambdaNameForCallable(paramStaticMethod(Long.MAX_VALUE, "")::virtualCallable);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("paramStaticMethod(_,_)::virtualCallable", "testVirtualCallableOnParamStaticMethod", lambdaName.get());
   }
@@ -274,14 +261,31 @@ public class TestMethodRefLambdaNames {
   @Test
   public void testVirtualConsumerOnParamStaticMethod() {
     Optional<String> lambdaName = getLambdaNameForConsumer(paramStaticMethod(Long.MAX_VALUE, "")::virtualConsumer);
-    System.out.println(lambdaName);
     assertTrue(lambdaName.isPresent());
     assertNameMatch("paramStaticMethod(_,_)::virtualConsumer", "testVirtualConsumerOnParamStaticMethod", lambdaName.get());
   }
 
 
+  @Test
+  public void testVirtualFunctionOnParamMethod() {
+    Optional<String> lambdaName = getLambdaNameForFunction(paramMethod(0, "")::virtualFunction);
+    assertTrue(lambdaName.isPresent());
+    assertNameMatch("paramMethod(_,_)::virtualFunction", "testVirtualFunctionOnParamMethod", lambdaName.get());
+  }
 
+  @Test
+  public void testVirtualCallableOnParamMethod() {
+    Optional<String> lambdaName = getLambdaNameForCallable(paramMethod(Long.MAX_VALUE, "")::virtualCallable);
+    assertTrue(lambdaName.isPresent());
+    assertNameMatch("paramMethod(_,_)::virtualCallable", "testVirtualCallableOnParamMethod", lambdaName.get());
+  }
 
+  @Test
+  public void testVirtualConsumerOnParamMethod() {
+    Optional<String> lambdaName = getLambdaNameForConsumer(paramMethod(Long.MAX_VALUE, "")::virtualConsumer);
+    assertTrue(lambdaName.isPresent());
+    assertNameMatch("paramMethod(_,_)::virtualConsumer", "testVirtualConsumerOnParamMethod", lambdaName.get());
+  }
 
   private void assertNameMatch(String name,String methodName, String lambdaName) {
     String className = TestMethodRefLambdaNames.class.getSimpleName();

@@ -1,6 +1,7 @@
 package com.linkedin.util.lambda;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -11,11 +12,12 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.TypePath;
+import org.objectweb.asm.util.TraceClassVisitor;
 
 class NameGenMethodVisitor extends MethodVisitor {
 
   private final Consumer<String> _inferredOperationConsumer;
-  private final Optional<SourcePointer> _sourcePointer;
+  protected final Optional<SourcePointer> _sourcePointer;
 
   protected State _state = State.INIT;
   protected String _name;
@@ -46,10 +48,11 @@ class NameGenMethodVisitor extends MethodVisitor {
     return super.visitAnnotationDefault();
   }
 
-  private Optional<String> findOwner(SourcePointer sp) {
+  protected Optional<String> findOwner(SourcePointer sp) {
     MethodRefOwnerFinder ownerFinder = new MethodRefOwnerFinder(api, sp._methodName, sp._lineNumber);
     try {
       ClassReader cr = new ClassReader(sp._className.replace('/', '.'));
+//      cr.accept(new TraceClassVisitor(ownerFinder, new PrintWriter(System.out)), 0);
       cr.accept(ownerFinder, 0);
       return ownerFinder.getInferredOwner();
     } catch (IOException e) {
@@ -70,9 +73,11 @@ class NameGenMethodVisitor extends MethodVisitor {
         }
         break;
       case BLOCK:
+        //analyze class that contains synthetic method created by lambda expression
         LambdaClassVisitor cv = new LambdaClassVisitor(api, _name, _desc, _inferredOperationConsumer);
         try {
           ClassReader cr = new ClassReader(_owner.replace('/', '.'));
+//          cr.accept(new TraceClassVisitor(cv, new PrintWriter(System.out)), 0);
           cr.accept(cv, 0);
           _inferredOperationConsumer.accept(cv.getName());
         } catch (IOException e) {
@@ -147,7 +152,7 @@ class NameGenMethodVisitor extends MethodVisitor {
 
   @Override
   public void visitFieldInsn(int opcode, String owner, String name, String desc) {
-    if (opcode == Opcodes.GETFIELD) {
+    if (opcode == Opcodes.GETFIELD || opcode == Opcodes.GETSTATIC) {
       if (_state == State.WITH_HIDDEN_ANNOTATION) {
         _state = State.FIRST_LOADS_AND_GETFIELDS;
       }

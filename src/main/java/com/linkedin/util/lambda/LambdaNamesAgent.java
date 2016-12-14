@@ -1,5 +1,6 @@
 package com.linkedin.util.lambda;
 
+import java.io.PrintWriter;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
@@ -8,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.util.TraceClassVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +40,8 @@ class LambdaNamesAgent {
     private void analyze(byte[] byteCode) {
       ClassReader reader = new ClassReader(byteCode);
       NameGenClassVisitor cv = new NameGenClassVisitor(Opcodes.ASM5);
-//      reader.accept(new TraceClassVisitor(cv, new PrintWriter(System.out)), 0);
-      reader.accept(cv, 0);
+      reader.accept(new TraceClassVisitor(cv, new PrintWriter(System.out)), 0);
+//      reader.accept(cv, 0);
       LambdaName lambdaName = cv.getLambdaName();
       lambdaName.getName().ifPresent(name -> LambdaNames.add(lambdaName.getClassName(), name));
     }
